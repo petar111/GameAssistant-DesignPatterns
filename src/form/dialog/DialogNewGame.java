@@ -129,6 +129,8 @@ public class DialogNewGame extends javax.swing.JDialog {
         System.out.println("Selected game: " + selectedGame.toString());
         
         Controller.INSTANCE.createNewGame(newGame, txtPlayerName.getText(), txtOppName.getText());
+        
+        dispose();
     }//GEN-LAST:event_btnNewGameActionPerformed
 
     private void cmbGamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGamesActionPerformed

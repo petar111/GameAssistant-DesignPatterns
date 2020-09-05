@@ -88,7 +88,6 @@ public class FormNewGame extends javax.swing.JFrame {
         
         System.out.println("Selected game: " + selectedGame);
         
-        setVisible(false);
         dispose();
     }//GEN-LAST:event_btnNewGameActionPerformed
 
@@ -106,7 +105,7 @@ public class FormNewGame extends javax.swing.JFrame {
 
     private void prepareView() {
         cmbGames.removeAllItems();
-        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         StorageGame.INSTANCE.getGames().forEach((game) -> {
             cmbGames.addItem(game);
         });

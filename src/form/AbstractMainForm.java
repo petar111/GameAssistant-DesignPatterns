@@ -131,7 +131,9 @@ public abstract class AbstractMainForm extends javax.swing.JFrame {
         DialogNewGame dialogNewGame = new DialogNewGame(this, true);
         dialogNewGame.setVisible(true);
         
-        
+        if(Session.INSTANCE.getGameSession() == null){
+            return;
+        }
         
         getContentPane().remove(pnlGameVisual);
         panelGameVisualFactory = makePanelGameVisualFactoryNewGame();
