@@ -12,7 +12,7 @@ import form.factory.MainFormFactory;
  *
  * @author siux
  */
-public class Client {
+class Client {
 
     
     private AbstractMainForm mainForm;

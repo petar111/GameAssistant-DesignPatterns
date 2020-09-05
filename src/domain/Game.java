@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import validator.GameValidator;
+import validator.IValidator;
 
 /**
  *
@@ -202,6 +204,11 @@ public class Game implements IDomainObject{
     @Override
     public String getStrongObjectIDColumn() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public IValidator getValidator() {
+        return new GameValidator(this);
     }
 
 

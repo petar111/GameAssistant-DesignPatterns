@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import session.Session;
 import session.game.GameSession;
 import session.game.player.decorator.ComputerPlayer;
+import session.game.player.decorator.PlayerComponent;
 import session.game.player.decorator.PlayerDecorator;
 
 /**
@@ -79,16 +80,14 @@ public enum Controller {
 
     public void move() {
         String selectedStrategy = mainForm.getSelectedStrategy();
-        Random tlr = new Random();
         
-        Player clientPlayer = Session.INSTANCE.getGameSession().getClientPlayer();
+        PlayerComponent clientPlayer = Session.INSTANCE.getGameSession().getClientPlayer();
         
         clientPlayer.setSelectedStrategy(selectedStrategy);
         
-        Player oppPlayer = Session.INSTANCE.getGameSession().getPlayers().get(1);
+        PlayerComponent oppPlayer = Session.INSTANCE.getGameSession().getOpponentPlayer();
         
         PlayerDecorator computerPlayer = new ComputerPlayer(oppPlayer);
-        
         computerPlayer.selectStrategy();
         
         clientPlayer.updatePlayerState(computerPlayer.getSelectedStrategy());

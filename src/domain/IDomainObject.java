@@ -8,6 +8,7 @@ package domain;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
+import validator.IValidator;
 
 /**
  *
@@ -26,10 +27,7 @@ public interface IDomainObject {
     void fillWeakObjects(List<IDomainObject> weakObjects);
 
     List<IDomainObject> getFromResultSet(ResultSet rs);
-
     
+    IValidator getValidator();
 
-
-
-    
 }

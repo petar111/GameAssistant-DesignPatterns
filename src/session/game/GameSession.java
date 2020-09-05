@@ -101,6 +101,10 @@ public class GameSession {
         return players.get(clientPlayer);
     }
     
+    public Player getOpponentPlayer(){
+        return players.get(1);
+    }
+    
     public List<Player> getPlayers() {
         return players;
     }

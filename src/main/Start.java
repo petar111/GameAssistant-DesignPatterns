@@ -5,7 +5,9 @@
  */
 package main;
 
-import client.Client;
+import client.SecureClient;
+import client.SecureClientFactory;
+
 
 /**
  *
@@ -13,7 +15,7 @@ import client.Client;
  */
 public class Start {
     public static void main(String[] args) {
-        Client client = new Client();
+        SecureClient client = SecureClientFactory.createSecureClient();
         client.start();
     }
 }

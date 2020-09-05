@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import validator.IValidator;
+import validator.PlayerConfigurationValidator;
 
 /**
  *
@@ -123,8 +125,11 @@ public class PlayerConfiguration implements IDomainObject{
     public String getStrongObjectIDColumn() {
         return "GameId";
     }
-    
-    
+
+    @Override
+    public IValidator getValidator() {
+        return new PlayerConfigurationValidator(this);
+    }
     
     
 }
