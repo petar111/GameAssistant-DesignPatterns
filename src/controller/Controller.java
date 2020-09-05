@@ -19,6 +19,7 @@ import session.game.GameSession;
 import session.game.player.decorator.ComputerPlayer;
 import session.game.player.decorator.PlayerComponent;
 import session.game.player.decorator.PlayerDecorator;
+import strategy.impl.StrategySelectorOnlyOneRandomStrategy;
 
 /**
  *
@@ -58,6 +59,7 @@ public enum Controller {
     public void createNewGame(Game game, String playerName, String oppName) {
         Session.INSTANCE.setGameSession(GameSession.newInstance(game, playerName, oppName));
         System.out.println("New game has been created.");
+        mainForm.refreshComponents();
     }
 
     public Game selectGameById(Game selectedGame) {
@@ -85,9 +87,7 @@ public enum Controller {
         
         clientPlayer.setSelectedStrategy(selectedStrategy);
         
-        PlayerComponent oppPlayer = Session.INSTANCE.getGameSession().getOpponentPlayer();
-        
-        PlayerDecorator computerPlayer = new ComputerPlayer(oppPlayer);
+        PlayerDecorator computerPlayer = Session.INSTANCE.getGameSession().getOpponentPlayer();
         computerPlayer.selectStrategy();
         
         clientPlayer.updatePlayerState(computerPlayer.getSelectedStrategy());
@@ -99,6 +99,18 @@ public enum Controller {
         
         mainForm.refreshComponents();
         
+    }
+
+    public void changeBehavior() {
+        PlayerComponent oppPlayer = Session.INSTANCE.getGameSession().getOpponentPlayer();
+        
+        ComputerPlayer computerPlayer = Session.INSTANCE.getGameSession().getOpponentPlayer();
+        
+        computerPlayer.changeBehavior();
+        
+        Session.INSTANCE.getGameSession().setCurrentMessage("Computer behavior is changed.");
+        
+        mainForm.refreshComponents();
     }
     
     

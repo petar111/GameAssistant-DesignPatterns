@@ -13,6 +13,8 @@ import domain.Strategy;
 import session.game.player.builder.PlayerBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import session.game.player.decorator.ComputerPlayer;
+import session.game.player.decorator.PlayerDecorator;
 
 /**
  *
@@ -43,12 +45,17 @@ public class GameSession {
             
             result.add(player);
         }
+        
+        
+      
         return result;
     }
 
     private Game currentGame;
     private List<Player> players;
     private int clientPlayer;
+    
+    private ComputerPlayer opponentPlayer;
     
     private int totalRounds;
     
@@ -83,7 +90,9 @@ public class GameSession {
         result.totalRounds = 0;
         
         result.currentMessage = "";
-        result.gameState = GameState.INACTIVE;        
+        result.gameState = GameState.INACTIVE;   
+        
+        result.opponentPlayer = new ComputerPlayer(result.players.get(1));
         
         return result;
     }
@@ -101,8 +110,8 @@ public class GameSession {
         return players.get(clientPlayer);
     }
     
-    public Player getOpponentPlayer(){
-        return players.get(1);
+    public ComputerPlayer getOpponentPlayer(){
+        return opponentPlayer;
     }
     
     public List<Player> getPlayers() {

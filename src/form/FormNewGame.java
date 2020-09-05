@@ -87,6 +87,9 @@ public class FormNewGame extends javax.swing.JFrame {
         Game selectedGame = (Game)cmbGames.getSelectedItem();
         
         System.out.println("Selected game: " + selectedGame);
+        
+        setVisible(false);
+        dispose();
     }//GEN-LAST:event_btnNewGameActionPerformed
 
     /**

@@ -12,5 +12,5 @@ package constants;
 public enum GameCommandsConstant {
     START_GAME,
     MOVE,
-    ADVICE
+    ADVICE, CHANGE_BEHAVIOR
 }

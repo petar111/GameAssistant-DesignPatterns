@@ -6,6 +6,7 @@
 package command.game.factory;
 
 import command.game.AbstractGameCommand;
+import command.game.impl.GameCommandChangeBehavior;
 import command.game.impl.GameCommandMove;
 import command.game.impl.GameCommandStartGame;
 import constants.GameCommandsConstant;
@@ -21,6 +22,9 @@ public class GameCommandFactory {
         }
         if(gameCommandsConstant == GameCommandsConstant.MOVE){
             return new GameCommandMove();
+        }
+        if(gameCommandsConstant == GameCommandsConstant.CHANGE_BEHAVIOR){
+            return new GameCommandChangeBehavior();
         }
         
         return null;
