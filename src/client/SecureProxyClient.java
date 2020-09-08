@@ -5,6 +5,8 @@
  */
 package client;
 
+import filter.Filter;
+import filter.FilterFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,19 +27,23 @@ public class SecureProxyClient implements SecureClient{
 
     @Override
     public void start() {
-        Properties secureData = new Properties();
+        
         try {
-            secureData.load(new FileInputStream("security.properties"));
-            String licenceKey = secureData.getProperty("licence");
+            Filter filterChain = FilterFactory.makeFilterChain();
             
-            
+            filterChain.handle();
             this.client.start();
-        } catch (FileNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SecureProxyClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SecureProxyClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR. " + ex.toString());
+            System.out.println("Aborting program in three seconds.");
+            
+            try {
+                Thread.sleep(3000);
+                System.exit(-1);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(SecureProxyClient.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
-        
-        
     }
 }
