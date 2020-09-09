@@ -8,6 +8,7 @@ package panel.commands.mandatory;
 import constants.GameCommandsConstant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mediator.panel.PanelGameCommandsMediator;
 import panel.commands.AbstractPanelCommands;
 import session.game.GameSession;
 
@@ -29,6 +30,8 @@ public class PanelBasicCommandsMandatory extends javax.swing.JPanel {
         btnMove.setEnabled(false);
         btnAdvice.setEnabled(false);
         btnChangeBehavior.setEnabled(false);
+        
+        PanelGameCommandsMediator.INSTANCE.setPanelBasicCommandsMandatory(this);
     }
     
     public void refreshView(){
@@ -120,26 +123,26 @@ public class PanelBasicCommandsMandatory extends javax.swing.JPanel {
 
     private void btnStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartGameActionPerformed
         
-       
-        panelCommands.makeCommand(GameCommandsConstant.START_GAME);
-        try {
-            panelCommands.invokeCommand();
-        } catch (Exception ex) {
-            Logger.getLogger(PanelBasicCommandsMandatory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       PanelGameCommandsMediator.INSTANCE.makeAndInvokeCommand(GameCommandsConstant.START_GAME);
+//        panelCommands.makeCommand(GameCommandsConstant.START_GAME);
+//        try {
+//            panelCommands.invokeCommand();
+//        } catch (Exception ex) {
+//            Logger.getLogger(PanelBasicCommandsMandatory.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnStartGameActionPerformed
 
     private void btnMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveActionPerformed
         if(session.Session.INSTANCE.getGameSession().getClientPlayer().getSelectedStrategy() == null){
             return;
         }
-        
-        panelCommands.makeCommand(GameCommandsConstant.MOVE);
-        try {
-            panelCommands.invokeCommand();
-        } catch (Exception ex) {
-            Logger.getLogger(PanelBasicCommandsMandatory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PanelGameCommandsMediator.INSTANCE.makeAndInvokeCommand(GameCommandsConstant.MOVE);
+//        panelCommands.makeCommand(GameCommandsConstant.MOVE);
+//        try {
+//            panelCommands.invokeCommand();
+//        } catch (Exception ex) {
+//            Logger.getLogger(PanelBasicCommandsMandatory.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnMoveActionPerformed
 
     private void btnStartGame1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartGame1ActionPerformed
@@ -147,12 +150,13 @@ public class PanelBasicCommandsMandatory extends javax.swing.JPanel {
     }//GEN-LAST:event_btnStartGame1ActionPerformed
 
     private void btnChangeBehaviorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeBehaviorActionPerformed
-       panelCommands.makeCommand(GameCommandsConstant.CHANGE_BEHAVIOR);
-        try {
-            panelCommands.invokeCommand();
-        } catch (Exception ex) {
-            Logger.getLogger(PanelBasicCommandsMandatory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PanelGameCommandsMediator.INSTANCE.makeAndInvokeCommand(GameCommandsConstant.CHANGE_BEHAVIOR);
+//       panelCommands.makeCommand(GameCommandsConstant.CHANGE_BEHAVIOR);
+//        try {
+//            panelCommands.invokeCommand();
+//        } catch (Exception ex) {
+//            Logger.getLogger(PanelBasicCommandsMandatory.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnChangeBehaviorActionPerformed
 
 
