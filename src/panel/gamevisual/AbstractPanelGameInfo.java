@@ -6,12 +6,14 @@
 package panel.gamevisual;
 
 import javax.swing.JLabel;
+import visitor.panel.PanelElement;
+import visitor.panel.PanelVisitor;
 
 /**
  *
  * @author siux
  */
-public abstract class AbstractPanelGameInfo extends javax.swing.JPanel {
+public abstract class AbstractPanelGameInfo extends javax.swing.JPanel implements PanelElement{
 
     /**
      * Creates new form AbstractPanelGameInfo
@@ -19,6 +21,8 @@ public abstract class AbstractPanelGameInfo extends javax.swing.JPanel {
     public AbstractPanelGameInfo() {
         initComponents();
     }
+    
+    
     
     private JLabel lblInfo;
     private JLabel lblDescription;
@@ -31,7 +35,10 @@ public abstract class AbstractPanelGameInfo extends javax.swing.JPanel {
         return lblDescription;
     }
     
-    
+    @Override
+    public void accept(PanelVisitor panelVisitor) {
+        panelVisitor.visit(this);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

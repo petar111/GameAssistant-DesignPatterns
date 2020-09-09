@@ -9,12 +9,14 @@ import command.game.AbstractGameCommand;
 import command.game.factory.GameCommandFactory;
 import constants.GameCommandsConstant;
 import javax.swing.JPanel;
+import visitor.panel.PanelElement;
+import visitor.panel.PanelVisitor;
 
 /**
  *
  * @author siux
  */
-public abstract class AbstractPanelCommands extends javax.swing.JPanel {
+public abstract class AbstractPanelCommands extends javax.swing.JPanel implements PanelElement{
 
     
     private AbstractGameCommand gameCommand;
@@ -28,6 +30,12 @@ public abstract class AbstractPanelCommands extends javax.swing.JPanel {
     
     public abstract void refreshView();
 
+    
+    @Override
+    public void accept(PanelVisitor panelVisitor) {
+        panelVisitor.visit(this);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

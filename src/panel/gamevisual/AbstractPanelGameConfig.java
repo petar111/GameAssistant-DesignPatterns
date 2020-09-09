@@ -5,15 +5,23 @@
  */
 package panel.gamevisual;
 
+import visitor.panel.PanelElement;
+import visitor.panel.PanelVisitor;
+
 /**
  *
  * @author siux
  */
-public abstract class AbstractPanelGameConfig extends javax.swing.JPanel {
+public abstract class AbstractPanelGameConfig extends javax.swing.JPanel implements PanelElement{
 
     public abstract void refreshView();
     public abstract String getSelectedStrategy();
     
+    
+    @Override
+    public void accept(PanelVisitor panelVisitor) {
+        panelVisitor.visit(this);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

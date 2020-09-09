@@ -5,13 +5,23 @@
  */
 package panel.gamevisual;
 
+import visitor.panel.PanelElement;
+import visitor.panel.PanelVisitor;
+
 /**
  *
  * @author siux
  */
-public abstract class AbstractPanelGameAnalytics extends javax.swing.JPanel {
+public abstract class AbstractPanelGameAnalytics extends javax.swing.JPanel implements PanelElement{
 
     public abstract void refreshView();
+
+    @Override
+    public void accept(PanelVisitor panelVisitor) {
+        panelVisitor.visit(this);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

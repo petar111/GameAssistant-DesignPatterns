@@ -8,6 +8,8 @@ package form;
 import form.dialog.DialogNewGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 import observer.lightmode.LightMode;
 import observer.lightmode.LightModeColors;
@@ -20,6 +22,9 @@ import panel.gamevisual.AbstractPanelGameInfo;
 import panel.gamevisual.PanelGameVisual;
 import panel.gamevisual.factory.AbstractPanelGameVisualFactory;
 import session.Session;
+import visitor.panel.PanelElement;
+import visitor.panel.PanelVisitor;
+import visitor.panel.PanelVisitorRefresh;
 
 /**
  *
@@ -33,6 +38,9 @@ public abstract class AbstractMainForm extends javax.swing.JFrame {
     public AbstractMainForm() {
         initComponents();
         lightModeManager = new LightModeManager();
+        panelRefreshVisitor = new PanelVisitorRefresh();
+        
+        panelElements = new ArrayList<>();
     }
 
     
@@ -41,10 +49,12 @@ public abstract class AbstractMainForm extends javax.swing.JFrame {
     }
     
     public void refreshComponents(){
-        pnlGameInfo.refreshView();
-        pnlGameConfig.refreshView();
-        pnlGameAnalytics.refreshView();
-        pnlCommands.refreshView();
+//        pnlGameInfo.refreshView();
+//        pnlGameConfig.refreshView();
+//        pnlGameAnalytics.refreshView();
+//        pnlCommands.refreshView();
+
+        panelElements.forEach(pe -> pe.accept(panelRefreshVisitor));
         
         lightModeManager.setLightMode(lightModeManager.getColors());
         
@@ -141,10 +151,11 @@ public abstract class AbstractMainForm extends javax.swing.JFrame {
         
         getContentPane().add(pnlGameVisual, java.awt.BorderLayout.CENTER);
         
-        refreshComponents();
-        
         setLightModeListeners();
+        setPanelElements();
         
+        
+        refreshComponents();
         
         pack();
         
@@ -176,7 +187,10 @@ public abstract class AbstractMainForm extends javax.swing.JFrame {
     private AbstractPanelCommands pnlCommands;
     private PanelGameVisual pnlGameVisual;
     
-    private LightModeManager lightModeManager;
+    private final LightModeManager lightModeManager;
+    private final List<PanelElement> panelElements;
+    
+    private final PanelVisitor panelRefreshVisitor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jmbMain;
@@ -232,6 +246,13 @@ public abstract class AbstractMainForm extends javax.swing.JFrame {
         if(pnlGameAnalytics instanceof LightModeListener){
             lightModeManager.attach((LightModeListener)pnlGameAnalytics);
         }
+    }
+
+    private void setPanelElements() {
+        panelElements.add((PanelElement)pnlCommands);
+        panelElements.add((PanelElement)pnlGameAnalytics);
+        panelElements.add((PanelElement)pnlGameConfig);
+        panelElements.add((PanelElement)pnlGameInfo);
     }
 
     
