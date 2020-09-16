@@ -16,7 +16,7 @@ import java.util.Map;
  * @author siux
  */
 public class PlayerBuilder {
-    public static Player createPlayer(Game game, int index, String playerName){
+    public Player createPlayer(Game game, int index, String playerName){
         PlayerConfiguration playerConfiguration = game.getPlayerConfigurations().get(index);
         
         String strategiesNames[][] = extractStrategies(game);
@@ -34,7 +34,7 @@ public class PlayerBuilder {
         return result;
     }
 
-    private static int[][] extractPayoffs(PlayerConfiguration playerConfiguration, String[] strategies) {
+    private int[][] extractPayoffs(PlayerConfiguration playerConfiguration, String[] strategies) {
         String payoffsRaw[] = playerConfiguration.getPayoffs().split(",");
         int payoffsRawCounter = 0;
         
@@ -50,7 +50,7 @@ public class PlayerBuilder {
         return payoffs;
     }
 
-    private static String[][] extractStrategies(Game game) {
+    private String[][] extractStrategies(Game game) {
         String result[][] = new String[game.getPlayerConfigurations().size()][];
         
         for (int i = 0; i < result.length; i++) {
@@ -60,7 +60,7 @@ public class PlayerBuilder {
         return result;
     }
 
-    private static Map<String, Integer> makeStrategiesMap(String[][] strategiesNames, int[][] payoffs, int index) {
+    private Map<String, Integer> makeStrategiesMap(String[][] strategiesNames, int[][] payoffs, int index) {
         Map<String, Integer> result = new HashMap<>();
         
         for (int i = 0; i < strategiesNames[index].length; i++) {
@@ -69,7 +69,7 @@ public class PlayerBuilder {
         return result;
     }
     
-    private static Map<String, Integer> makePlayedStrategies(String[][] strategiesNames, int index) {
+    private Map<String, Integer> makePlayedStrategies(String[][] strategiesNames, int index) {
         Map<String, Integer> result = new HashMap<>();
         
         for (int i = 0; i < strategiesNames[index].length; i++) {
@@ -78,7 +78,7 @@ public class PlayerBuilder {
         return result;
     }
 
-    private static Map<String, Integer> makeStrategiesOpponentMap(String[][] strategiesNames, int[][] payoffs, int index) {
+    private Map<String, Integer> makeStrategiesOpponentMap(String[][] strategiesNames, int[][] payoffs, int index) {
         int oppIndex = (index == 0 ? 1: 0);
         
         Map<String, Integer> result = new HashMap<>();

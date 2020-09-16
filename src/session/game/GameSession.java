@@ -40,8 +40,9 @@ public class GameSession {
             }else{
                 name = oppName;
             }
+            PlayerBuilder playerBuilder = new PlayerBuilder();
             
-            Player player = PlayerBuilder.createPlayer(game, i, name);
+            Player player = playerBuilder.createPlayer(game, i, name);
             
             result.add(player);
         }

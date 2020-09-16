@@ -5,7 +5,10 @@
  */
 package session.game.player;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import prototype.Prototype;
 import session.game.player.decorator.PlayerComponent;
 
 
@@ -13,7 +16,7 @@ import session.game.player.decorator.PlayerComponent;
  *
  * @author siux
  */
-public class Player implements PlayerComponent{
+public class Player implements PlayerComponent, Prototype<Player>{
     
     private int payoffs[][];
     private Map<String, Integer> strategies;
@@ -28,6 +31,28 @@ public class Player implements PlayerComponent{
     
     
     private String name;
+    
+    public Player(Player player){
+        for (int i = 0; i < player.payoffs.length; i++) {
+            this.payoffs[i] = Arrays.copyOf(player.payoffs[i], player.payoffs[i].length);
+        }
+        
+        
+        this.strategies = new HashMap<>(player.strategies);
+        
+        this.strategiesOpponent = new HashMap<>(player.strategiesOpponent);
+        
+        this.strategyNames = Arrays.copyOf(player.strategyNames, player.strategyNames.length);
+        
+        this.playedStrategies = new HashMap<>(player.playedStrategies);
+        
+        this.selectedStrategy = String.valueOf(player.selectedStrategy);
+        
+        this.totalPayoff = player.totalPayoff;
+        
+        this.name = String.valueOf(player.name);
+    }
+    
 
     public void setStrategyNames(String[] strategyNames) {
         this.strategyNames = strategyNames;
@@ -101,6 +126,11 @@ public class Player implements PlayerComponent{
     @Override
     public void selectStrategy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Player cloneObject() {
+        return new Player(this);
     }
 
 }
