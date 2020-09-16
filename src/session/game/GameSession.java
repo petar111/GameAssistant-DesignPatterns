@@ -10,8 +10,11 @@ import domain.Game;
 import domain.Payoff;
 import session.game.player.Player;
 import domain.Strategy;
+import iterator.Aggregate;
+import iterator.GameSessionPlayersIterator;
 import session.game.player.builder.PlayerBuilder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import session.game.player.decorator.ComputerPlayer;
 import session.game.player.decorator.PlayerDecorator;
@@ -20,10 +23,15 @@ import session.game.player.decorator.PlayerDecorator;
  *
  * @author siux
  */
-public class GameSession {
+public class GameSession implements Aggregate<Player>{
 
     public void update() {
         totalRounds++;
+    }
+
+    @Override
+    public Iterator<Player> iterator() {
+        return new GameSessionPlayersIterator(this);
     }
     
     public enum GameState{
