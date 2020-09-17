@@ -14,8 +14,11 @@ import iterator.Aggregate;
 import iterator.GameSessionPlayersIterator;
 import session.game.player.builder.PlayerBuilder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import memento.MoveMemento;
 import session.game.player.decorator.ComputerPlayer;
 import session.game.player.decorator.PlayerDecorator;
 
@@ -25,6 +28,9 @@ import session.game.player.decorator.PlayerDecorator;
  */
 public class GameSession implements Aggregate<Player>{
 
+     
+    
+    
     public void update() {
         totalRounds++;
     }
@@ -32,6 +38,18 @@ public class GameSession implements Aggregate<Player>{
     @Override
     public Iterator<Player> iterator() {
         return new GameSessionPlayersIterator(this);
+    }
+
+    public MoveMemento memento() {
+        return new MoveMemento(getClientPlayer().getSelectedStrategy(), getOpponentPlayer().getSelectedStrategy());
+    }
+
+    public void undo(MoveMemento moveMemento) {
+        Map<String, String> state = moveMemento.getState();
+        // TODO: Perform undo state modification to game session and players
+        this.totalRounds--;
+        this.getClientPlayer().undoUpdatePlayerState(state.get("clientPlayer"), state.get("opponentPlayer"));
+        this.players.get(GeneralGameConstants.COMPUTER_PLAYER_LABEL).undoUpdatePlayerState(state.get("opponentPlayer"), state.get("clientPlayer"));
     }
     
     public enum GameState{
@@ -43,7 +61,7 @@ public class GameSession implements Aggregate<Player>{
         
         for (int i = 0; i < GeneralGameConstants.NUMBER_OF_PLAYERS; i++) {
             String name;
-            if(clientPlayer == i){
+            if(GeneralGameConstants.CLIENT_PLAYER_INDEX_DEFAULT == i){
                 name = playerName;
             }else{
                 name = oppName;
@@ -61,8 +79,8 @@ public class GameSession implements Aggregate<Player>{
     }
 
     private Game currentGame;
-    private List<Player> players;
-    private int clientPlayer;
+    private Map<String, Player> players;
+    private Player clientPlayer;
     
     private ComputerPlayer opponentPlayer;
     
@@ -91,23 +109,25 @@ public class GameSession implements Aggregate<Player>{
     }
     
     public static GameSession newInstance(Game game, String playerName, String oppName){
-        GameSession result = new GameSession();
-        
-        result.clientPlayer = 0;
-        result.currentGame = game;
-        result.players = result.createPlayers(game, playerName, oppName);
-        result.totalRounds = 0;
-        
-        result.currentMessage = "";
-        result.gameState = GameState.INACTIVE;   
-        
-        result.opponentPlayer = new ComputerPlayer(result.players.get(1));
-        
-        return result;
+//        GameSession result = new GameSession();
+//        
+//        
+//        result.currentGame = game;
+//        result.players = result.createPlayers(game, playerName, oppName);
+//        result.totalRounds = 0;
+//        
+//        result.currentMessage = "";
+//        result.gameState = GameState.INACTIVE;   
+//        
+//        result.clientPlayer = result.getPlayers().get(GeneralGameConstants.CLIENT_PLAYER_INDEX_DEFAULT);
+//        result.opponentPlayer = new ComputerPlayer(result.players.get(GeneralGameConstants.COMPUTER_PLAYER_INDEX_DEFAULT));
+//        
+//        return result;
+            return null;
     }
     
-    private GameSession(){
-        
+    GameSession(){
+        this.players = new HashMap<>();
     }
 
     public int getTotalRounds() {
@@ -116,14 +136,14 @@ public class GameSession implements Aggregate<Player>{
 
     
     public Player getClientPlayer(){
-        return players.get(clientPlayer);
+        return this.clientPlayer;
     }
     
     public ComputerPlayer getOpponentPlayer(){
         return opponentPlayer;
     }
     
-    public List<Player> getPlayers() {
+    public Map<String, Player> getPlayers() {
         return players;
     }
 
@@ -131,9 +151,22 @@ public class GameSession implements Aggregate<Player>{
         return currentGame;
     }
     
-    public void incrementTotalRounds(){
+    private void incrementTotalRounds(){
         totalRounds++;
     }
+
+    void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
+    }
+
+    void setClientPlayer(Player clientPlayer) {
+        this.clientPlayer = clientPlayer;
+    }
+
+    void setOpponentPlayer(ComputerPlayer opponentPlayer) {
+        this.opponentPlayer = opponentPlayer;
+    }
+    
     
     
     

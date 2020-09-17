@@ -5,6 +5,7 @@
  */
 package controller;
 
+import constants.GeneralGameConstants;
 import db.DatabaseBroker;
 import domain.Game;
 import session.game.player.Player;
@@ -14,8 +15,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import memento.MoveMemento;
 import session.Session;
 import session.game.GameSession;
+import session.game.GameSessionBuilder;
 import session.game.player.decorator.ComputerPlayer;
 import session.game.player.decorator.PlayerComponent;
 import session.game.player.decorator.PlayerDecorator;
@@ -30,6 +33,7 @@ public enum Controller {
 
 
     private AbstractMainForm mainForm;
+    private List<MoveMemento> strategiesInMoves;
 
     public void setMainForm(AbstractMainForm mainForm) {
         this.mainForm = mainForm;
@@ -57,7 +61,14 @@ public enum Controller {
     }
 
     public void createNewGame(Game game, String playerName, String oppName) {
-        Session.INSTANCE.setGameSession(GameSession.newInstance(game, playerName, oppName));
+        GameSessionBuilder gameSessionBuilder = new GameSessionBuilder();
+        
+        Session.INSTANCE.setGameSession(gameSessionBuilder
+                                                    .withClientPlayer(game, GeneralGameConstants.CLIENT_PLAYER_INDEX_DEFAULT, playerName)
+                                                    .withOpponentPlayer(game, GeneralGameConstants.COMPUTER_PLAYER_INDEX_DEFAULT, oppName)
+                                                    .withGame(game)
+                                                    .build());
+        strategiesInMoves = new ArrayList<>();
         System.out.println("New game has been created.");
         mainForm.refreshComponents();
     }
@@ -95,10 +106,22 @@ public enum Controller {
         
         Session.INSTANCE.getGameSession().update();
         
+        strategiesInMoves.add(Session.INSTANCE.getGameSession().memento());
+        
         Session.INSTANCE.getGameSession().setCurrentMessage("You played " + clientPlayer.getSelectedStrategy() + " strategy and your opponent played " + computerPlayer.getSelectedStrategy() + " strategy.");
         
         mainForm.refreshComponents();
         
+    }
+    
+    public void undo(MoveMemento moveMemento){
+        if(!strategiesInMoves.isEmpty()){
+            Session.INSTANCE.getGameSession().undo(strategiesInMoves.get(strategiesInMoves.size() - 1));
+            strategiesInMoves.remove(strategiesInMoves.size() - 1);
+            Session.INSTANCE.getGameSession().setCurrentMessage("Undo");
+        
+            mainForm.refreshComponents();
+        }
     }
 
     public void changeBehavior() {

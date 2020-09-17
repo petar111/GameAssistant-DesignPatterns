@@ -122,6 +122,13 @@ public class Player implements PlayerComponent, Prototype<Player>{
         incrementPlayedStrategy();
         
     }
+    
+    public void undoUpdatePlayerState(String myStrategy, String opponentStrategy){
+        int outcomePayoff = payoffs[strategies.get(myStrategy)][strategiesOpponent.get(opponentStrategy)];
+        
+        subtractToTotalPayoff(outcomePayoff);
+        decrementPlayerStrategy(myStrategy);
+    }
 
     @Override
     public void selectStrategy() {
@@ -131,6 +138,14 @@ public class Player implements PlayerComponent, Prototype<Player>{
     @Override
     public Player cloneObject() {
         return new Player(this);
+    }
+
+    private void subtractToTotalPayoff(int amount) {
+        this.totalPayoff -= amount;
+    }
+
+    private void decrementPlayerStrategy(String myStrategy) {
+        playedStrategies.put(myStrategy, playedStrategies.get(myStrategy) - 1);
     }
 
 }

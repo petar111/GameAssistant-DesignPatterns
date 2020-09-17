@@ -144,7 +144,7 @@ public class PanelGameAnalyticsBasic extends AbstractPanelGameAnalytics implemen
     public void refreshView() {
         
         Player p1 = Session.INSTANCE.getGameSession().getClientPlayer();
-        Player p2 = Session.INSTANCE.getGameSession().getPlayers().get(1);
+        Player p2 = (Player)Session.INSTANCE.getGameSession().getOpponentPlayer().getPlayer();
         GameSession gameSession = Session.INSTANCE.getGameSession();
         
         lblNameP1.setText(p1.getName());
@@ -170,8 +170,8 @@ public class PanelGameAnalyticsBasic extends AbstractPanelGameAnalytics implemen
             pnlStrategiesP2.add(panel);
         }
         
-        txtPayoffP1.setText(gameSession.getClientPlayer().getTotalPayoff() + "");
-        txtPayoffP2.setText(gameSession.getPlayers().get(1).getTotalPayoff() + "");
+        txtPayoffP1.setText(p1.getTotalPayoff() + "");
+        txtPayoffP2.setText(p2.getTotalPayoff() + "");
         txtTotalRounds.setText(gameSession.getTotalRounds() + "");
         
         txtGameFlow.append(gameSession.getCurrentMessage() + "\n");

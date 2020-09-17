@@ -91,7 +91,7 @@ public class PanelGameConfigBasic extends AbstractPanelGameConfig implements Lig
     public void refreshView() {
         GameSession gameSession = Session.INSTANCE.getGameSession();
         Player p1 = gameSession.getClientPlayer();
-        Player p2 = gameSession.getPlayers().get(1);
+        Player p2 = (Player)gameSession.getOpponentPlayer().getPlayer();
         
         lblNameP1.setText(p1.getName());
         lblNameP2.setText(p2.getName());

@@ -12,6 +12,10 @@ package session.game.player.decorator;
 public abstract class PlayerDecorator implements PlayerComponent{
     protected PlayerComponent player;
 
+    public PlayerComponent getPlayer() {
+        return player;
+    }
+    
     public PlayerDecorator(PlayerComponent player){
         this.player = player;
     }
@@ -37,7 +41,6 @@ public abstract class PlayerDecorator implements PlayerComponent{
     public void setSelectedStrategy(String selectedStrategy) {
         player.setSelectedStrategy(selectedStrategy);
     }
-    
     
     
 

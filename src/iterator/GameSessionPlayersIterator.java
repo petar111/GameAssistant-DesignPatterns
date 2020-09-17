@@ -5,7 +5,10 @@
  */
 package iterator;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 import session.game.GameSession;
 import session.game.player.Player;
 
@@ -15,22 +18,25 @@ import session.game.player.Player;
  */
 public class GameSessionPlayersIterator implements Iterator<Player>{
 
-    private final GameSession gameSession;
+    private final List<Player> players;
     private int index;
     public GameSessionPlayersIterator(GameSession gameSession){
-        this.gameSession = gameSession; 
+        this.players = new ArrayList<>(gameSession.getPlayers().values()); 
         this.index = 0;
     }
     
     
     @Override
     public boolean hasNext() {
-        return index < gameSession.getPlayers().size();//To change body of generated methods, choose Tools | Templates.
+        return index < players.size();//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Player next() {
-        return gameSession.getPlayers().get(index++);//To change body of generated methods, choose Tools | Templates.
+        if(!hasNext()){
+            throw new NoSuchElementException();
+        }
+        return players.get(index++);//To change body of generated methods, choose Tools | Templates.
     }
     
 }
